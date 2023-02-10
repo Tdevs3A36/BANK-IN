@@ -1,0 +1,25 @@
+#Hello:
+#    path: /teacher/{name}
+#    controller: App\Controller\TeacherController::showTeacher
+
+Bonjour:
+    path: /bonjour
+    controller: App\Controller\StudentController::index
+    
+route3:
+    path: /teacher1
+    controller: App\Controller\TeacherController::index1
+
+route2:
+    path: /teacher1/{name}
+    controller: App\Controller\TeacherController::showTeacherwithName
+
+route1:
+    path: /teacher1/{name}/{lastname}
+    controller: App\Controller\TeacherController::showTeacher2
+
+
+
+
+
+
