@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<title>Pret</title>
+
+{% block body %}
+    <h1>Pret</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pret.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom_complet</th>
+                <td>{{ pret.nomComplet }}</td>
+            </tr>
+            <tr>
+                <th>Date_naissance</th>
+                <td>{{ pret.dateNaissance ? pret.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ pret.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ pret.email }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ pret.ville }}</td>
+            </tr>
+            <tr>
+                <th>Region</th>
+                <td>{{ pret.region }}</td>
+            </tr>
+            <tr>
+                <th>Zip_code</th>
+                <td>{{ pret.zipCode }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ pret.country }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ pret.location }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ pret.montant }}</td>
+            </tr>
+            <tr>
+                <th>Raison</th>
+                <td>{{ pret.raison }}</td>
+            </tr>
+            <tr>
+                <th>Poste</th>
+                <td>{{ pret.poste }}</td>
+            </tr>
+            <tr>
+                <th>Debut_travail</th>
+                <td>{{ pret.debutTravail ? pret.debutTravail|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Revenu</th>
+                <td>{{ pret.revenu }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pret_index') }}">back to list</a>
+
+    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
+
+    {{ include('pret/_delete_form.html.twig') }}
+{% endblock %}
