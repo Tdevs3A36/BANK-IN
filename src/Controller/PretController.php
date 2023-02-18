@@ -16,9 +16,10 @@ class PretController extends AbstractController
     #[Route('/', name: 'app_pret_index', methods: ['GET'])]
     public function index(PretRepository $pretRepository): Response
     {
-        return $this->render('pret/index.html.twig', [
+      /*  return $this->render('pret/index.html.twig', [
             'prets' => $pretRepository->findAll(),
-        ]);
+        ]); */
+        return $this->render('pret/firstpage.html.twig');
     }
 
     #[Route('/new', name: 'app_pret_new', methods: ['GET', 'POST'])]
@@ -33,7 +34,7 @@ class PretController extends AbstractController
 
             return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
         }
-
+ 
         return $this->renderForm('pret/new.html.twig', [
             'pret' => $pret,
             'form' => $form,
