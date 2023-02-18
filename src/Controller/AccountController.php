@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,8 +30,19 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $accountRepository->save($account, true);
-
+           
+           if($account->getCarteCIN()=="")
+           { 
+            $account->setCarteCIN("no_image.jpg");
+           }
+           else {
+            $file= new File($account->getCarteCIN());
+            $filename=md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('uploads'),$filename);
+            $account->setCarteCIN($filename);
+           }
+           $accountRepository->save($account, true);
+            
             return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -8,9 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\App\Form\FileType;
-use Symfony\Component\Form\Extension\Core\Type\FileType as TypeFileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class AccountType extends AbstractType
 {
@@ -34,19 +34,14 @@ class AccountType extends AbstractType
             ])
             ->add('Adresse')
             ->add('Ville')
-            ->add('CarteCIN', TypeFileType::class, ['attr' => ['class' => 'custom-file-input'],
-                'mapped' => false,
+            ->add('CarteCIN', FileType::class, [
+                "attr" =>[
+                    "class" =>"form-control"],
+                'data_class' => null,
+                'required' => false,]) 
+            ->add('Services', CheckboxType::class, [
+                'label'    => 'Quels Services Voulez Vous Choisir?',
                 'required' => false,
-                'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpeg',
-                            'image/jpg',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid ImageFile',
-                    ])
-                ],
             ])
         ;
     }
