@@ -1,0 +1,88 @@
+
+    
+
+<div class="content-wrapper">
+
+ 
+
+  
+    <section class="account-wrap ptb-100">
+    <div class="container">
+    <div class="section-title style1 text-center mb-40">
+   
+    <h2>Formulaire De Depense</h2>
+    </div>
+    <div class="account-form">
+    {{ form_start(form)}}
+    <div class="row">
+    <div class="col-md-6">
+    <div class="form-group">
+    
+    <label for="fname">titre</label>
+    
+    {{ form_widget(form.title) }}
+    {{ form_errors(form.title) }}
+    
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="phone">prenom_destinataire</label>
+    {{ form_widget(form.prenom_destinataire) }}
+    {{ form_errors(form.prenom_destinataire) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="email">rib_destinataire</label>
+    {{ form_widget(form.rib_destinataire) }}
+    {{ form_errors(form.rib_destinataire) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="email">montant</label>
+    {{ form_widget(form.montant) }}
+    {{ form_errors(form.montant) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="dob">date_debut</label>
+    {{ form_widget(form.datedebut) }}
+    {{ form_errors(form.datedebut) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="gender">type_depense</label>
+    {{ form_widget(form.type_depense) }}
+    {{ form_errors(form.type_depense) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="pname">backgroundcolor</label>
+    {{ form_widget(form.backgroundcolor) }}
+    {{ form_errors(form.backgroundcolor) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+        <label for="phone">categorie_depense</label>
+        {{ form_widget(form.categorie_depense) }}
+        {{ form_errors(form.categorie_depense) }}
+        </div>
+    </div>
+    <div class="col-md-12">
+    <button type="submit" class="btn style1 w-100 d-block"> save</button>
+    </div>
+    </div>
+
+        
+    {{ form_end(form) }}
+</div>
+    </div>
+    </section>
+    
+    </div>

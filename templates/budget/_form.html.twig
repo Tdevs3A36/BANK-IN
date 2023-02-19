@@ -1,0 +1,54 @@
+
+    
+
+<div class="content-wrapper">
+
+ 
+
+ 
+    <a href="{{ path('app_depenses_index') }}">back to list</a></div>
+    
+    <div class="container">
+    <div class="section-title style1 text-center mb-40">
+   
+    <h2>Formulaire De Budget</h2>
+    </div>
+    <div class="account-form">
+    {{ form_start(form)}}
+    <div class="row">
+    <div class="col-md-6">
+    <div class="form-group">
+    
+    <label for="fname">Montant</label>
+    
+    {{ form_widget(form.montant) }}
+    {{ form_errors(form.montant) }}
+    
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="phone">date de debut</label>
+    {{ form_widget(form.datedebut) }}
+    {{ form_errors(form.datedebut) }}
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="form-group">
+    <label for="email">date de fin</label>
+    {{ form_widget(form.datefin) }}
+    {{ form_errors(form.datefin) }}
+    </div>
+    </div>
+    
+   
+   
+    <button type="submit" class="btn style1 w-100 d-block"> save</button>
+   
+    
+    {{ form_end(form) }}
+</div>
+    </div>
+    </section>
+    
+    </div>

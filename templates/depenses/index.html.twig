@@ -1,0 +1,121 @@
+{% extends './base_front.html.twig' %}
+
+
+{% block body %}
+<style>
+
+    .topright {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+      font-size: 18px;
+      
+    }
+    .card{
+        background:#050830e0;
+        margin:15px;
+        box-sizing: border-box;
+        border-radius:20px;
+        transition: .4s;
+        height:200px;   
+    }
+    .table{
+        background:rgb(20 124 187 / 56%);
+        margin:15px;
+        width:1450px;
+        border-radius:15px;
+    }
+    .card-title{
+        color:rgb(255 255 255 / 85%);
+    }
+    .text-5{
+        color:#4B3869;
+        margin:15px;
+    }
+
+    </style>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+<div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+            <div class="topright">
+            <a href="{{ path('app_budget_new') }}" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+              </a>
+            </div>
+          <h5 class="card-title">votre Budget est:</h5>
+          {% for Budget in Budgets %}
+            <h5 class="card-title">{{ Budget.montant }}</h5>
+            
+          <p class="card-text">valable jusqu'a {{ Budget.datefin ? Budget.datefin|date('Y-m-d') : '' }}</p>
+          <a href="{{ path('app_budget_edit', {'id': Budget.id}) }}" class="btn btn-primary">Modifier</a>
+          
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">votre somme de dépenses est :</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+     <div >
+      <h1 class="text-5">list des depenses :</h1>
+     </div>
+    <table class="table" >
+        <thead>
+            <tr>
+                
+                <th>Title</th>
+                <th>Prenom_destinataire</th>
+                <th>Rib_destinataire</th>
+                <th>Montant</th>
+                
+                <th>Datedebut</th>
+                
+                <th>Type_depense</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for depense in depenses %}
+            <tr>
+                
+                <td>{{ depense.title }}</td>
+                <td>{{ depense.prenomDestinataire }}</td>
+                <td>{{ depense.ribDestinataire }}</td>
+                <td>{{ depense.montant }}</td>
+                
+                <td>{{ depense.datedebut ? depense.datedebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ depense.typeDepense }}</td>
+                <td>
+                    <a href="{{ path('app_depenses_show', {'id_depense': depense.idDepense}) }}">show</a>
+                    <a href="{{ path('app_depenses_edit', {'id_depense': depense.idDepense}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_depenses_new') }}">Create new</a>
+{% endblock %}
