@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 #[Route('/account')]
 class AccountController extends AbstractController
@@ -23,26 +25,31 @@ class AccountController extends AbstractController
     }
 
     #[Route('/new', name: 'app_account_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AccountRepository $accountRepository): Response
+    public function new(Request $request, AccountRepository $accountRepository, SluggerInterface $slugger): Response
     {
         $account = new Account();
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
-           if($account->getCarteCIN()=="")
-           { 
-            $account->setCarteCIN("no_image.jpg");
-           }
-           else {
-            $file= new File($account->getCarteCIN());
-            $filename=md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('uploads'),$filename);
-            $account->setCarteCIN($filename);
-           }
-           $accountRepository->save($account, true);
-            
+            $brochureFile = $form->get('brochure')->getData();
+
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+
+                $account->setBrochureFilename($newFilename);
+            }
+            $accountRepository->save($account, true);
             return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 

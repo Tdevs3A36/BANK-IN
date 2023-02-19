@@ -36,10 +36,23 @@ class Account
     private ?string $Ville = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $CarteCIN = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $Services = null;
+
+    #[ORM\Column(type: 'string')]
+    private $brochureFilename = null;
+
+    public function getBrochureFilename()
+    {
+        return $this->brochureFilename;
+    }
+
+    public function setBrochureFilename($brochureFilename)
+    {
+        $this->brochureFilename = $brochureFilename;
+
+        return $this;
+    }
+    
 
     public function getId(): ?int
     {
@@ -130,17 +143,19 @@ class Account
         return $this;
     }
 
-    public function getCarteCIN(): ?string
+    public function getServices(): ?string
     {
-        return $this->CarteCIN;
+        return $this->Services;
     }
 
-    public function setCarteCIN(string $CarteCIN): self
+    public function setServices(string $Services): self
     {
-        $this->CarteCIN = $CarteCIN;
+        $this->Services = $Services;
 
         return $this;
     }
+
+}
     /* public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
@@ -169,15 +184,4 @@ class Account
         return $this->image;
     }
 */
-    public function getServices(): ?string
-    {
-        return $this->Services;
-    }
 
-    public function setServices(string $Services): self
-    {
-        $this->Services = $Services;
-
-        return $this;
-    }
-}

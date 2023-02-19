@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+{% extends './base_back.html.twig' %}
 
-<title>Account index</title>
+{% block title %}Listes des Comptes{% endblock %}
 
 {% block body %}
     <h1>Account index</h1>
@@ -16,7 +16,8 @@
                 <th>DateNaiss</th>
                 <th>Adresse</th>
                 <th>Ville</th>
-                <th>CarteCIN</th>
+                <th>Brochure</th>
+                <th>Services</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -31,7 +32,10 @@
                 <td>{{ account.DateNaiss ? account.DateNaiss|date('Y-m-d') : '' }}</td>
                 <td>{{ account.Adresse }}</td>
                 <td>{{ account.Ville }}</td>
-                <td>{{ account.CarteCIN }}</td>
+                <td>{{ account.brochureFilename }}</td>
+                <td>{{ account.Services }}</td>
+
+
                 <td>
                     <a href="{{ path('app_account_show', {'id': account.id}) }}">show</a>
                     <a href="{{ path('app_account_edit', {'id': account.id}) }}">edit</a>
