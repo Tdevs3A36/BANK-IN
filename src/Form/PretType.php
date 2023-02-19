@@ -22,9 +22,6 @@ class PretType extends AbstractType
             ->add('type')
             ->add('duree')
             ->add('Taux')
-
-
-
             ->add('montant')
             ->add('raison', ChoiceType::class, array(
                 'choices' => array(
@@ -37,9 +34,6 @@ class PretType extends AbstractType
                 'expanded' => false,
                 'multiple' => false,
             ))
-
-
-
             ->add('poste')
             ->add('debut_travail', DateType::class, [
                 'widget' => 'single_text',

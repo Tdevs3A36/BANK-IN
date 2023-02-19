@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<title>Pret index</title>
+
+{% block body %}
+    <h1>Pret index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_complet</th>
+                <th>Date_naissance</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Ville</th>
+                <th>Region</th>
+                <th>Zip_code</th>
+                <th>Country</th>
+                <th>Location</th>
+                <th>Montant</th>
+                <th>Raison</th>
+                <th>Poste</th>
+                <th>Debut_travail</th>
+                <th>Revenu</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pret in prets %}
+            <tr>
+                <td>{{ pret.id }}</td>
+                <td>{{ pret.nomComplet }}</td>
+                <td>{{ pret.dateNaissance ? pret.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ pret.telephone }}</td>
+                <td>{{ pret.email }}</td>
+                <td>{{ pret.ville }}</td>
+                <td>{{ pret.region }}</td>
+                <td>{{ pret.zipCode }}</td>
+                <td>{{ pret.country }}</td>
+                <td>{{ pret.location }}</td>
+                <td>{{ pret.montant }}</td>
+                <td>{{ pret.raison }}</td>
+                <td>{{ pret.poste }}</td>
+                <td>{{ pret.debutTravail ? pret.debutTravail|date('Y-m-d') : '' }}</td>
+                <td>{{ pret.revenu }}</td>
+                <td>
+                    <a href="{{ path('app_pret_show', {'id': pret.id}) }}">show</a>
+                    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pret_new') }}">Create new</a>
+{% endblock %}

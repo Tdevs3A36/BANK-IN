@@ -5,6 +5,11 @@ namespace App\Entity;
 use App\Repository\PretRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 #[ORM\Entity(repositoryClass: PretRepository::class)]
 class Pret
@@ -14,7 +19,7 @@ class Pret
     #[ORM\Column]
     private ?int $id = null;
 
-    
+
     #[ORM\Column]
     private ?float $montant = null;
 
@@ -39,12 +44,19 @@ class Pret
     #[ORM\Column]
     private ?float $Taux = null;
 
+    #[ORM\OneToOne(mappedBy: 'pret', cascade: ['persist', 'remove'])]
+    private ?Etatpret $etat = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_pret = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-   
+
     public function getMontant(): ?float
     {
         return $this->montant;
@@ -140,4 +152,61 @@ class Pret
 
         return $this;
     }
+
+    public function getAdministrator(): ?EtatPret
+    {
+        return $this->administrator;
+    }
+
+    public function setAdministrator(?EtatPret $administrator): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($administrator === null && $this->administrator !== null) {
+            $this->administrator->setEtat(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($administrator !== null && $administrator->getEtat() !== $this) {
+            $administrator->setEtat($this);
+        }
+
+        $this->administrator = $administrator;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etatpret
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etatpret $etat): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($etat === null && $this->etat !== null) {
+            $this->etat->setPret(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($etat !== null && $etat->getPret() !== $this) {
+            $etat->setPret($this);
+        }
+
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getDatePret(): ?\DateTimeInterface
+    {
+        return $this->date_pret;
+    }
+
+    public function setDatePret(?\DateTimeInterface $date_pret): self
+    {
+        $this->date_pret = $date_pret;
+
+        return $this;
+    }
 }
+

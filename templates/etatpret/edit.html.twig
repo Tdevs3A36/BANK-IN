@@ -1,0 +1,10 @@
+{% extends './base_front.html.twig' %}
+{% block title %} Modifier Etat du pret {% endblock %}
+
+{% block body %}
+    <h1>  Modifier Etat du pret N° {{ etatpret.id }} </h1>
+
+    {{ include('etatpret/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+
+
+{% endblock %}
