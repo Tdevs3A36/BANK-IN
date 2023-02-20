@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+	<section class="account-wrap ptb-100">
+
+		<div class="container">
+			<div class="account-form">
+        
+				{{ form_start(form) }}
+
+				<div>
+					<div class="section-title style1 text-center mb-40">
+						<h1>Avez-vous des questions?</h1>
+						
+					</div>
+					<div class="row">
+						<div class="col-md-612">
+							<div class="form-group">
+
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="fname">Nom</label>
+											{{ form_widget(form.nom,{'attr':{'class':'form-control','placeholder':"Entrez votre Nom"}}) }}
+											{{ form_errors(form.nom) }}
+										</div>
+									</div>
+                                    <div class="col-md-6">
+										<div class="form-group">
+											<label for="fname">Prénom</label>
+											{{ form_widget(form.prenom,{'attr':{'class':'form-control','placeholder':"Entrez votre Prénom"}}) }}
+											{{ form_errors(form.prenom) }}
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="dob">Date</label>
+											{{ form_widget(form.date) }}
+											{{ form_errors(form.date) }}
+										</div>
+									</div>
+									
+									<div class="col-md-6">
+										<div class="form-outline">
+											<label for="description">sujet</label>
+											{{ form_widget(form.description,{'attr':{'class':'form-label','rows':'12','placeholder':"Description" }}) }}
+											{{ form_errors(form.description) }}
+										</div>
+									</div>
+
+
+									
+
+								</div>
+
+
+							</div>
+						</div>
+
+					</div>
+					</div>	
+					</div>
+				</div>
+
+                 <div class="col-md-12 text-center">
+                   <button type="submit" class="btn style1 w-100 d-block" >Envoyer</button>
+                      <div id="msgSubmit" class="h3 text-center hidden"></div>
+                          <div class="clearfix"></div>
+                             </div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+
+
+	</section>
+
+
+{% endblock %}
