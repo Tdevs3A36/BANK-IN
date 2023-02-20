@@ -17,6 +17,7 @@
                 <th>Adresse</th>
                 <th>Ville</th>
                 <th>Brochure</th>
+                <th>Etat</th>
                 <th>Services</th>
                 <th>actions</th>
             </tr>
@@ -34,12 +35,22 @@
                 <td>{{ account.Ville }}</td>
                 <td>{{ account.brochureFilename }}</td>
                 <td>{{ account.Services }}</td>
-
-
+                {% if account.etat is not null %}
+                <td>{{ account.etat.etat }}</td>
+                {%  else %}
+                <td></td>
+                {%  endif %}
                 <td>
                     <a href="{{ path('app_account_show', {'id': account.id}) }}">show</a>
-                    <a href="{{ path('app_account_edit', {'id': account.id}) }}">edit</a>
+                    {% if account.etat is not null %}
+                    <a href="{{ path('app_accstatus_edit', {'id': account.etat.id}) }}">Change Account Status</a>
+                    {%  endif %}
+{#                    <a href="{{ path('app_pret_delete', {'id': pret.id}) }}">Delete</a>#}
+                    {{ include('account/_delete_form.html.twig') }}
+
                 </td>
+
+                
             </tr>
         {% else %}
             <tr>

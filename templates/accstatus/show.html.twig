@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<title>Accstatus</title>
+
+{% block body %}
+    <h1>Accstatus</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ accstatus.id }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ accstatus.Etat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accstatus_index') }}">back to list</a>
+
+    <a href="{{ path('app_accstatus_edit', {'id': accstatus.id}) }}">edit</a>
+
+    {{ include('accstatus/_delete_form.html.twig') }}
+{% endblock %}

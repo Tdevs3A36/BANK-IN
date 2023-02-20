@@ -39,16 +39,13 @@
                 <th>Ville</th>
                 <td>{{ account.Ville }}</td>
             </tr>
-            <tr>
-                <th>CarteCIN</th>
-                <td>{{ account.CarteCIN }}</td>
-            </tr>
-        </tbody>
+            <tr>	
+            <th>Brochure</th>
+			<td>{{ account.brochureFilename }}</td>
+		</tr>	
     </table>
 
-    <a href="{{ path('app_account_index') }}">back to list</a>
-
-    <a href="{{ path('app_account_edit', {'id': account.id}) }}">edit</a>
+    <a href="{{ path('app_account_index') }}">Afficher La Liste Des Comptes</a>
 
     {{ include('account/_delete_form.html.twig') }}
 {% endblock %}

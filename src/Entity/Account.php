@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AccountRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account
@@ -15,24 +16,32 @@ class Account
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"NomComplet is required.")]
     private ?string $NomComplet = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Num Telefone is required.")]
+    #[Assert\Length(min:8,max:8,minMessage:" Votre Num Telefone est invalide. ")]
     private ?int $NumTel = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Email is required.")]
+    #[Assert\Email(message:" The Email '{{ value }}' is not a valid email. ")]
     private ?string $Email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Sexe = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan('Y +18', message:"La date doit être supérieure à 18")]
     private ?\DateTimeInterface $DateNaiss = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"adresse is required.")]
     private ?string $Adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"adresse is required.")]
     private ?string $Ville = null;
 
     #[ORM\Column(length: 255)]
@@ -40,6 +49,11 @@ class Account
 
     #[ORM\Column(type: 'string')]
     private $brochureFilename = null;
+
+    #[ORM\OneToOne(mappedBy: 'account', cascade: ['persist', 'remove'])]
+    private ?Accstatus $etat = null;
+
+   
 
     public function getBrochureFilename()
     {
@@ -155,33 +169,27 @@ class Account
         return $this;
     }
 
-}
-    /* public function setImageFile(File $image = null)
+    public function getEtat(): ?Accstatus
     {
-        $this->imageFile = $image;
+        return $this->etat;
+    }
 
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
+    public function setEtat(?Accstatus $etat): self
+    {
+        if ($etat === null && $this->etat !== null) {
+            $this->etat->setAccount(null);
         }
+
+        if ($etat !== null && $etat->getAccount() !== $this) {
+            $etat->setAccount($this);
+        }
+
+        $this->etat = $etat;
+
+        return $this;
     }
 
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
+    
 
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
-    }
-*/
+}    
 

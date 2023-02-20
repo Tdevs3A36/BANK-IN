@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<title>Accstatus index</title>
+
+{% block body %}
+    <h1>Accstatus index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Etat</th>
+                <th>Reponse</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accstatus in accstatuses %}
+            <tr>
+                <td>{{ accstatus.id }}</td>
+                <td>{{ accstatus.Etat }}</td>
+                <td>
+                    <a href="{{ path('app_accstatus_show', {'id': accstatus.id}) }}">show</a>
+                    <a href="{{ path('app_accstatus_edit', {'id': accstatus.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accstatus_new') }}">Create new</a>
+{% endblock %}

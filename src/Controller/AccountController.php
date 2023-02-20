@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Accstatus;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
+use App\Repository\AccstatusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +27,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/new', name: 'app_account_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AccountRepository $accountRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, AccountRepository $accountRepository, SluggerInterface $slugger, AccstatusRepository $etatrepo): Response
     {
         $account = new Account();
         $form = $this->createForm(AccountType::class, $account);
@@ -50,6 +52,10 @@ class AccountController extends AbstractController
                 $account->setBrochureFilename($newFilename);
             }
             $accountRepository->save($account, true);
+            $etat = new Accstatus();
+            $etat->setEtat("En attente");
+            $etat->setAccount($account);
+            $etatrepo->save($etat, true);
             return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -62,7 +68,7 @@ class AccountController extends AbstractController
     #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
     public function show(Account $account): Response
     {
-        return $this->render('account/show.html.twig', [
+        return $this->render('account/etat.html.twig', [
             'account' => $account,
         ]);
     }
