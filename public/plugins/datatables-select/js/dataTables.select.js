@@ -214,14 +214,14 @@ been created for rows / cells (DataTables' defer rendering feature).
 
 A range of API methods are available for triggering selection and de-selection
 of rows. Methods are also available to configure the selection events that can
-be triggered by an end user (such as which items are to be selected). To a large
+be triggered by an end userrrr (such as which items are to be selected). To a large
 extent, these of API methods *is* Select. It is basically a collection of helper
 functions that can be used to select items in a DataTable.
 
 Configuration of select is held in the object `_select` which is attached to the
 DataTables settings object on initialisation. Select being available on a table
 is not optional when Select is loaded, but its default is for selection only to
-be available via the API - so the end user wouldn't be able to select rows
+be available via the API - so the end userrrr wouldn't be able to select rows
 without additional configuration.
 
 The `_select` object contains the following properties:
@@ -229,7 +229,7 @@ The `_select` object contains the following properties:
 ```
 {
 	items:string       - Can be `rows`, `columns` or `cells`. Defines what item 
-	                     will be selected if the user is allowed to activate row
+	                     will be selected if the userrrr is allowed to activate row
 	                     selection using the mouse.
 	style:string       - Can be `none`, `single`, `multi` or `os`. Defines the
 	                     interaction style when selecting items
@@ -386,7 +386,7 @@ function enableMouseSelection ( dt )
 			// element selection doesn't look terrible!
 			if ( e.shiftKey || e.metaKey || e.ctrlKey ) {
 				container
-					.css( '-moz-user-select', 'none' )
+					.css( '-moz-userrrr-select', 'none' )
 					.one('selectstart.dtSelect', selector, function () {
 						return false;
 					} );
@@ -399,7 +399,7 @@ function enableMouseSelection ( dt )
 		.on( 'mouseup.dtSelect', selector, function() {
 			// Allow text selection to occur again, Mozilla style (tested in FF
 			// 35.0.1 - still required)
-			container.css( '-moz-user-select', '' );
+			container.css( '-moz-userrrr-select', '' );
 		} )
 		.on( 'click.dtSelect', selector, function ( e ) {
 			var items = dt.select.items();
@@ -435,7 +435,7 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
-			var event = $.Event('user-select.dt');
+			var event = $.Event('userrrr-select.dt');
 			eventTrigger( dt, event, [ items, cell, e ] );
 
 			if ( event.isDefaultPrevented() ) {
