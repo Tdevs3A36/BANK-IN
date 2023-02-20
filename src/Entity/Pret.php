@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\PretRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -20,26 +23,89 @@ class Pret
     private ?int $id = null;
 
 
+    /**
+     * @Assert\GreaterThan(
+     *     value=1000,
+     *     message="Le montant doit être supérieur à 1000 DT"
+     * )
+     */
     #[ORM\Column]
     private ?float $montant = null;
+
+
+
+
 
     #[ORM\Column(length: 255)]
     private ?string $raison = null;
 
+
+
+
+    /**
+     * @Assert\Length(
+     *      min = 3,
+     *      
+     *      minMessage = "La poste doit comporter au moins 3 caractères",
+     *
+     * )
+     */
     #[ORM\Column]
-    private ?int $poste = null;
+    private ?string $poste = null;
+
+
+
+
+    /**
+     * @Assert\GreaterThan("today", message="La date doit être supérieure à aujourd'hui")
+     */
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $debut_travail = null;
 
+
+
+    /**
+     * @Assert\GreaterThan(
+     *     value=0,
+     *     message="Le revenu annuel doit être supérieur à zéro"
+     * )
+     */
+
     #[ORM\Column]
     private ?float $revenu = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $duree = null;
+
+
+    /**
+     * @ORM\Column(type="int")
+     * @Assert\Range(
+     *      min = 12,
+     *      max = 84,
+     *      notInRangeMessage = "Renseignez une durée comprise entre {{ min }} et {{ max }} mois.",
+     * )
+     * 
+     */
+
+    #[ORM\Column]
+    private ?int $duree = null;
+
+
+
+
+
+
+
+    /**
+     * @ORM\Column(type="float")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 100,
+     *      notInRangeMessage = "La valeur doit être comprise entre {{ min }} et {{ max }}.",
+     * )
+     * 
+     */
 
     #[ORM\Column]
     private ?float $Taux = null;
@@ -81,12 +147,12 @@ class Pret
         return $this;
     }
 
-    public function getPoste(): ?int
+    public function getPoste(): ?string
     {
         return $this->poste;
     }
 
-    public function setPoste(int $poste): self
+    public function setPoste(string $poste): self
     {
         $this->poste = $poste;
 
@@ -117,24 +183,14 @@ class Pret
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
 
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
-        return $this;
-    }
-
-    public function getDuree(): ?\DateTimeInterface
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
 
-    public function setDuree(\DateTimeInterface $duree): self
+    public function setDuree(int $duree): self
     {
         $this->duree = $duree;
 
@@ -153,7 +209,7 @@ class Pret
         return $this;
     }
 
-    public function getAdministrator(): ?EtatPret
+    /*   public function getAdministrator(): ?EtatPret
     {
         return $this->administrator;
     }
@@ -173,7 +229,7 @@ class Pret
         $this->administrator = $administrator;
 
         return $this;
-    }
+    } */
 
     public function getEtat(): ?Etatpret
     {
@@ -209,4 +265,3 @@ class Pret
         return $this;
     }
 }
-

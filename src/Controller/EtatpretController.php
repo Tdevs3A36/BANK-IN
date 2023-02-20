@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etatpret;
+use App\Entity\Pret;
 use App\Form\EtatpretType;
 use App\Repository\EtatpretRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/etatpret')]
 class EtatpretController extends AbstractController
 {
+    #[Route('/list', name: 'app_etatpret_list', methods: ['GET', 'POST'])]
+    public function index(EtatpretRepository $etatpretRepository): Response
+    {
+        return $this->render('etatpret/index.html.twig', [
+            'etatprets' => $etatpretRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_etatpret_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EtatpretRepository $etatpretRepository): Response
@@ -50,7 +58,7 @@ class EtatpretController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $etatpretRepository->save($etatpret, true);
 
-            return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_pret_list', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('etatpret/edit.html.twig', [
@@ -62,7 +70,7 @@ class EtatpretController extends AbstractController
     #[Route('/{id}', name: 'app_etatpret_delete', methods: ['POST'])]
     public function delete(Request $request, Etatpret $etatpret, EtatpretRepository $etatpretRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$etatpret->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $etatpret->getId(), $request->request->get('_token'))) {
             $etatpretRepository->remove($etatpret, true);
         }
 

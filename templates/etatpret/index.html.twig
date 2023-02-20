@@ -203,7 +203,7 @@
 						<ul
 							class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 							<!-- Add icons to the links using the .nav-icon class
-																																																																																																																			               with font-awesome or any other icon font library -->
+																																																																																																																										               with font-awesome or any other icon font library -->
 
 
 							<li class="nav-item">
@@ -245,13 +245,13 @@
 				<!-- Content Header (Page header) -->
 				<div class="content-header">
 					<div class="container-fluid">
-						<div class="row mb-2">
-							<div class="col-sm-6">
-								<h1 class="m-0">Dashboard</h1>
+						<div>
+							<div class="col-sm-612">
+								<h1 class="m-0">liste de réponces</h1>
 							</div>
 							<!-- /.col -->
-							<div class="row">
-								<div class="col-12">
+							<div>
+								<div>
 									<div
 										class="card">
 
@@ -261,133 +261,97 @@
 												<thead>
 													<tr>
 														<th>Id</th>
-														<th>Montant</th>
-														<th>Raison</th>
-														<th>Poste</th>
-														<th>Debut_travail</th>
-														<th>Revenu</th>
+														<th>Etat</th>
+														<th>Remarque</th>
+														<th>Modifier</th>
 
-														<th>Duree</th>
-														<th>Taux</th>
 
-														<th>Date du pret</th>
-														<th>actions</th>
 													</tr>
 												</thead>
 												<tbody>
-													{% for pret in prets %}
+													{% for etatpret in etatprets %}
 														<tr data-widget="expandable-table" aria-expanded="false">
-															<td>{{ pret.id }}</td>
-															<td>{{ pret.montant }}</td>
-															<td>{{ pret.raison }}</td>
-															<td>{{ pret.poste }}</td>
-															<td>{{ pret.debutTravail ? pret.debutTravail|date('Y-m-d') : '' }}</td>
-															<td>{{ pret.revenu }}</td>
-
-															<td>{{ pret.duree ? pret.duree|date('Y-m-d') : '' }}</td>
-															<td>{{ pret.Taux }}</td>
-															{# {% if pret.etat is not null %}
-																																																																																																										<td>{{ pret.etat.etat }}</td>
-																																																																																																									{%  else %}
-																																																																																																										<td></td>
-																																																																																																									{%  endif %} #}
-															<td>{{ pret.getDatePret() |date() }}</td>
+															<td>{{ etatpret.id }}</td>
+															<td>{{ etatpret.etat }}</td>
+															<td>{{ etatpret.remarque }}</td>
 															<td>
-																{# <a href="{{ path('app_pret_show', {'id': pret.id}) }}">show</a> #}
-
-																{#                    <a href="{{ path('app_pret_delete', {'id': pret.id}) }}">Delete</a>#}
-															{{ include('pret/_delete_form.html.twig') }}
-														</td>
-
-														</tr>
-															<tr class="expandable-body d-none"> <th colspan="2">
-
-																{% if pret.etat is not null %}
-																	<p style="display: none;">{{ pret.etat.etat }}</p>
-																{%  else %}
-																	<p></p>
-																{%  endif %}
-
-															</th>
-															<th colspan="8">
-																{% if pret.etat is not null %}
-																	{# <a href="{{ path('app_etatpret_edit', {'id': pret.etat.id}) }}">Changer Etat du pret</a> #}
-																	<a href="{{ path('app_etatpret_edit', {'id': pret.etat.id}) }}" class="btn btn-app">
-																		<i class="fas fa-edit"></i>
-																		Modifier
-																	</a>
-																{%  endif %}
-
-															</th>
-														</tr>
-													{% else %}
-														<tr>
-															<td colspan="10">
-																Il n'y a pas des prets pour le moment
+																{# <a href="{{ path('app_etatpret_edit', {'id': etatpret.id}) }}">Changer Etat du pret</a> #}
+																<a href="{{ path('app_etatpret_edit', {'id': etatpret.id}) }}" class="btn btn-app">
+																	<i class="fas fa-edit"></i>
+																	Modifier
+																</a>
 															</td>
 														</tr>
-													{% endfor %}
-												</tbody>
-												<a href="{{ path('app_pret_new') }}">Ajouter</a>
-											</table>
-										</div>
-										<!-- /.card-body -->
+													</td>
+
+
+												{% else %}
+													<tr>
+														<td colspan="10">
+															Il n'y a pas des etats prets pour le moment
+														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+
+										</table>
 									</div>
-									<!-- /.card -->
+									<!-- /.card-body -->
 								</div>
+								<!-- /.card -->
 							</div>
-							<!-- /.col -->
 						</div>
-						<!-- /.row -->
+						<!-- /.col -->
 					</div>
-					<!-- /.container-fluid -->
+					<!-- /.row -->
 				</div>
-
+				<!-- /.container-fluid -->
 			</div>
-			<!-- /.content-wrapper -->
 
-
-			<!-- Control Sidebar -->
-			<aside
-				class="control-sidebar control-sidebar-dark"><!-- Control sidebar content goes here -->
-			</aside>
-			<!-- /.control-sidebar -->
 		</div>
-		<!-- ./wrapper -->
+		<!-- /.content-wrapper -->
 
-		<!-- jQuery -->
-		<script src="plugins/jquery/jquery.min.js"></script>
-		<!-- jQuery UI 1.11.4 -->
-		<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-		<script>
-			$.widget.bridge("uibutton", $.ui.button);
-		</script>
-		<!-- Bootstrap 4 -->
-		<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- ChartJS -->
-		<script src="plugins/chart.js/Chart.min.js"></script>
-		<!-- Sparkline -->
-		<script src="plugins/sparklines/sparkline.js"></script>
-		<!-- JQVMap -->
-		<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-		<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-		<!-- jQuery Knob Chart -->
-		<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-		<!-- daterangepicker -->
-		<script src="plugins/moment/moment.min.js"></script>
-		<script src="plugins/daterangepicker/daterangepicker.js"></script>
-		<!-- Tempusdominus Bootstrap 4 -->
-		<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-		<!-- Summernote -->
-		<script src="plugins/summernote/summernote-bs4.min.js"></script>
-		<!-- overlayScrollbars -->
-		<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-		<!-- AdminLTE App -->
-		<script src="dist/js/adminlte.js"></script>
-		<!-- AdminLTE for demo purposes -->
-		<script src="dist/js/demo.js"></script>
-		<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-		<script src="dist/js/pages/dashboard.js"></script>
+
+		<!-- Control Sidebar -->
+		<aside
+			class="control-sidebar control-sidebar-dark"><!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
 	</div>
-{% endblock %}
+	<!-- ./wrapper -->
+
+	<!-- jQuery -->
+	<script src="plugins/jquery/jquery.min.js"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<script>
+		$.widget.bridge("uibutton", $.ui.button);
+	</script>
+	<!-- Bootstrap 4 -->
+	<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- ChartJS -->
+	<script src="plugins/chart.js/Chart.min.js"></script>
+	<!-- Sparkline -->
+	<script src="plugins/sparklines/sparkline.js"></script>
+	<!-- JQVMap -->
+	<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+	<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+	<!-- jQuery Knob Chart -->
+	<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+	<!-- daterangepicker -->
+	<script src="plugins/moment/moment.min.js"></script>
+	<script src="plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- Summernote -->
+	<script src="plugins/summernote/summernote-bs4.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="dist/js/adminlte.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="dist/js/demo.js"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script src="dist/js/pages/dashboard.js"></script>
+</div>{% endblock %}

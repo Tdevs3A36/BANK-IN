@@ -15,13 +15,25 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/pret')]
 class PretController extends AbstractController
 {
-    #[Route('/', name: 'app_pret_index', methods: ['GET'])]
+    #[Route('/', name: 'app_pret_desc', methods: ['GET'])]
+    public function desc(PretRepository $pretRepository): Response
+    {
+        /*  return $this->render('pret1/index.html.twig', [
+            'prets' => $pretRepository->findAll(),
+        ]); */
+        return $this->render('pret/firstpage.html.twig');
+    }
+
+
+    #[Route('/list', name: 'app_pret_list', methods: ['GET', 'POST'])]
     public function index(PretRepository $pretRepository): Response
     {
         return $this->render('pret/index.html.twig', [
             'prets' => $pretRepository->findAll(),
         ]);
     }
+   
+
 
     #[Route('/new', name: 'app_pret_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PretRepository $pretRepository, EtatpretRepository $etatrepo): Response
@@ -37,14 +49,17 @@ class PretController extends AbstractController
             $etat->setEtat("En attente");
             $etat->setPret($pret);
             $etatrepo->save($etat, true);
+            
+            
 
-            return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
+           return $this->redirectToRoute('app_pret_desc', [], Response::HTTP_SEE_OTHER); 
         }
 
 
         return $this->renderForm('pret/new.html.twig', [
             'pret' => $pret,
             'form' => $form,
+            
         ]);
     }
 
@@ -73,7 +88,7 @@ class PretController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pretRepository->save($pret, true);
 
-            return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_pret_list', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('pret/edit.html.twig', [
@@ -85,10 +100,10 @@ class PretController extends AbstractController
     #[Route('/{id}', name: 'app_pret_delete', methods: ['POST'])]
     public function delete(Request $request, Pret $pret, PretRepository $pretRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$pret->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $pret->getId(), $request->request->get('_token'))) {
             $pretRepository->remove($pret, true);
         }
 
-        return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_pret_list', [], Response::HTTP_SEE_OTHER);
     }
 }
