@@ -260,7 +260,7 @@
 											<table class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>Id</th>
+														<th>Account</th>
 														<th>Montant</th>
 														<th>Raison</th>
 														<th>Poste</th>
@@ -277,13 +277,12 @@
 												<tbody>
 													{% for pret in prets %}
 														<tr data-widget="expandable-table" aria-expanded="false">
-															<td>{{ pret.id }}</td>
+															<td>{{ pret.account.NomComplet }}</td>
 															<td>{{ pret.montant }}</td>
 															<td>{{ pret.raison }}</td>
 															<td>{{ pret.poste }}</td>
 															<td>{{ pret.debutTravail ? pret.debutTravail|date('Y-m-d') : '' }}</td>
 															<td>{{ pret.revenu }}</td>
-
 															<td>{{ pret.duree ? pret.duree|date('Y-m-d') : '' }}</td>
 															<td>{{ pret.Taux }}</td>
 															{# {% if pret.etat is not null %}

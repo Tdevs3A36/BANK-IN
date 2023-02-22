@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etatpret;
 use App\Entity\Pret;
 use App\Form\PretType;
+use App\Repository\AccountRepository;
 use App\Repository\EtatpretRepository;
 use App\Repository\PretRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/pret')]
 class PretController extends AbstractController
-{
+{ 
+    #[Route('/account', name: 'app_pret_account', methods: ['GET'])]
+    public function account(AccountRepository $accountRepository): Response
+    {
+       
+        return $this->render('pret/account.html.twig', [
+            'accounts' => $accountRepository->findAll(),
+        ]);
+    }
+
     #[Route('/', name: 'app_pret_desc', methods: ['GET'])]
     public function desc(PretRepository $pretRepository): Response
     {

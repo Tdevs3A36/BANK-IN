@@ -1,0 +1,15 @@
+<title>Select User</title>
+
+{% block body %}
+
+	{% for account in accounts %}
+		<tr>
+			<td>{{ account.NomComplet }}</td>
+		</tr>
+	{% else %}
+
+		Il n'y a pas des comptes pour le moment
+
+	{% endfor %}
+
+{% endblock %}</tr>

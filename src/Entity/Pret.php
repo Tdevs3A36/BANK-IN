@@ -116,6 +116,10 @@ class Pret
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_pret = null;
 
+    #[ORM\ManyToOne(inversedBy: 'prets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $account = null;
+
 
     public function getId(): ?int
     {
@@ -261,6 +265,18 @@ class Pret
     public function setDatePret(?\DateTimeInterface $date_pret): self
     {
         $this->date_pret = $date_pret;
+
+        return $this;
+    }
+
+    public function getAccount(): ?account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?account $account): self
+    {
+        $this->account = $account;
 
         return $this;
     }
