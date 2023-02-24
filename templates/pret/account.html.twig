@@ -1,15 +1,10 @@
 <title>Select User</title>
 
 {% block body %}
+	<h1>Select an Account</h1>
 
-	{% for account in accounts %}
-		<tr>
-			<td>{{ account.NomComplet }}</td>
-		</tr>
-	{% else %}
-
-		Il n'y a pas des comptes pour le moment
-
-	{% endfor %}
-
+	{{ form_start(form) }}
+	{{ form_row(form.account) }}
+	{{ form_row(form.submit) }}
+	{{ form_end(form) }}
 {% endblock %}</tr>

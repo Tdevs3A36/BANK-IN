@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Account;
 use App\Entity\Etatpret;
 use App\Entity\Pret;
+use App\Form\AccountType;
 use App\Form\PretType;
 use App\Repository\AccountRepository;
 use App\Repository\EtatpretRepository;
 use App\Repository\PretRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,12 +20,33 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/pret')]
 class PretController extends AbstractController
 { 
-    #[Route('/account', name: 'app_pret_account', methods: ['GET'])]
-    public function account(AccountRepository $accountRepository): Response
+    #[Route('/account', name: 'app_pret_account', methods: ['GET', 'POST'])]
+    public function selectAccount(Request $request): Response
     {
-       
+        $accounts = $this->getDoctrine()
+            ->getRepository(Account::class)
+            ->findAll();
+
+        $form = $this->createFormBuilder()
+            ->add('account', ChoiceType::class, [
+                'choices' => $accounts,
+                'choice_label' => 'NomComplet',
+                'placeholder' => 'Choose an account',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Select',
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $accountId = $form->get('account')->getData()->getId();
+            return $this->redirectToRoute('app_pret_new', ['id' => $accountId]);
+        }
+
         return $this->render('pret/account.html.twig', [
-            'accounts' => $accountRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
 
