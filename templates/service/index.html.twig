@@ -1,0 +1,45 @@
+{% extends './base_front.html.twig' %}
+{% block body %}
+    <section class="account-wrap ptb-100">
+        <div class="container">
+            <div class="section-title style1 text-center mb-40">
+                <span>Open Account</span>
+                <h2>Account Open Form</h2>
+            </div>
+            <table class="table">
+                <thead>
+                <a  style="background-color: black;margin-left: 1175px" class="btn btn-default " href="{{ path('addService') }}">Add Service</a>
+
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Abonnement</th>
+
+
+                </tr>
+                </thead>
+                {% for s in service %}
+
+                <tbody>
+                    <tr>
+
+                        <td>{{ s.nom }}</td>
+                        <td>{{ s.description }}</td>
+                        <td>{{ s.abonnement }}</td>
+                        <td>
+                            <a style="background-color: red;margin-left: 810px" class="btn btn-default " href="{{ path('deleteSercvie', {'id': s.id}) }}">Delete</a>
+                        </td>
+                        <td>
+                            <a  style="background-color: green" class="btn btn-default " href="{{ path('updateService', {'id': s.id}) }}">Update</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+
+            </table>
+
+        </div>
+    </section>
+
+{% endblock %}

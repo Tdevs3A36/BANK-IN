@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,7 +35,7 @@ class Account
     private ?string $Sexe = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\GreaterThan('Y +18', message:"La date doit être supérieure à 18")]
+    #[Assert\GreaterThan('Y -18', message:"La date doit être supérieure à 18")]
     private ?\DateTimeInterface $DateNaiss = null;
 
     #[ORM\Column(length: 255)]
@@ -52,6 +54,16 @@ class Account
 
     #[ORM\OneToOne(mappedBy: 'account', cascade: ['persist', 'remove'])]
     private ?Accstatus $etat = null;
+
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    private ?Abonnement $abonnement = null;
+
+
+
+    public function __construct()
+    {
+        $this->Services = new ArrayCollection();
+    }
 
    
 
@@ -188,6 +200,19 @@ class Account
 
         return $this;
     }
+
+    public function getAbonnement(): ?Abonnement
+    {
+        return $this->abonnement;
+    }
+
+    public function setAbonnement(?Abonnement $abonnement): self
+    {
+        $this->abonnement = $abonnement;
+
+        return $this;
+    }
+
 
     
 

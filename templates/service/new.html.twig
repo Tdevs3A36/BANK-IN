@@ -1,0 +1,35 @@
+{% extends './base_front.html.twig' %}
+{% block body %}
+    <section class="account-wrap ptb-100">
+        <div class="container">
+            <div class="section-title style1 text-center mb-40">
+                <span>Open Account</span>
+                <h2>Account Open Form</h2>
+            </div>
+
+            <div class="account-form">
+
+                <div class="row-cols-4">
+                    {{form_start(form)}}
+
+                    {{form_label(form.nom,'name : ',{'attr':{'class':'form-label'}})}}
+                    {{form_widget(form.nom,{'attr':{'class':'form-control'}})}}
+                    {{form_label(form.description,'description : ',{'attr':{'class':'form-label'}})}}
+                    {{form_widget(form.description,{'attr':{'class':'form-control'}})}}
+                    {{form_label(form.abonnement,'abonnement : ',{'attr':{'class':'form-label'}})}}
+                    {{form_widget(form.abonnement,{'attr':{'class':'form-control'}})}}
+
+                    <div>
+                        <button  type="submit" class="btn style1 w-100 d-block">Save</button>
+
+                    </div>
+
+                    {{form_end(form)}}
+                </div>
+            </div>
+            </div>
+
+
+    </section>
+
+{% endblock %}

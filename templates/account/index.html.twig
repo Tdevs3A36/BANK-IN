@@ -1,4 +1,3 @@
-{% extends './base_back.html.twig' %}
 
 {% block title %}Listes des Comptes{% endblock %}
 
@@ -8,7 +7,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>NomComplet</th>
                 <th>NumTel</th>
                 <th>Email</th>
@@ -17,15 +15,14 @@
                 <th>Adresse</th>
                 <th>Ville</th>
                 <th>Brochure</th>
-                <th>Etat</th>
                 <th>Services</th>
+                <th>Etat</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for account in accounts %}
             <tr>
-                <td>{{ account.id }}</td>
                 <td>{{ account.NomComplet }}</td>
                 <td>{{ account.NumTel }}</td>
                 <td>{{ account.Email }}</td>
