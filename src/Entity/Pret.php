@@ -280,4 +280,20 @@ class Pret
 
         return $this;
     }
+    private $checked = false; // Add this property to keep track of checked status
+
+    // ...
+    
+    public function isChecked(): bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(bool $checked): self
+    {
+        $this->checked = $checked;
+
+        return $this;
+    }
+
 }
