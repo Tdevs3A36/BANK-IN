@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230217205102 extends AbstractMigration
+final class Version20230301193047 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20230217205102 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE account ADD image VARCHAR(255) NOT NULL, ADD updated_at DATETIME NOT NULL');
+        $this->addSql('CREATE FULLTEXT INDEX account ON account (nom_complet, email, sexe, adresse, ville)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE account DROP image, DROP updated_at');
+        $this->addSql('DROP INDEX account ON account');
     }
 }

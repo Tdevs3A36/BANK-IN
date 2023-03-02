@@ -29,7 +29,15 @@ class AccountRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    
+    public function search($mots){
+        $query = $this->createQueryBuilder('a');
+        if($mots != null){
+            $query->Where('MATCH_AGAINST(a.NomComplet, a.Email, a.Sexe, a.Adresse, a.Ville) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        return $query->getQuery()->getResult();
+    }
     public function remove(Account $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

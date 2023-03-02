@@ -61,6 +61,7 @@ class AccountType extends AbstractType
                 ],
                 
             ])
+            ->add('solde')
             
         ;
     }

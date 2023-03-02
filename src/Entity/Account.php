@@ -6,7 +6,7 @@ use App\Repository\AccountRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+#[ORM\Index(name: 'account', columns: ['nom_complet','email', 'sexe', 'adresse','ville'], flags: ['fulltext'])]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account
 {
@@ -33,7 +33,7 @@ class Account
     private ?string $Sexe = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\GreaterThan('Y +18', message:"La date doit être supérieure à 18")]
+    //#[Assert\GreaterThan('Y +18', message:"La date doit être supérieure à 18")]
     private ?\DateTimeInterface $DateNaiss = null;
 
     #[ORM\Column(length: 255)]
@@ -48,10 +48,16 @@ class Account
     private ?string $Services = null;
 
     #[ORM\Column(type: 'string')]
-    private $brochureFilename = null;
+    private $brochureFilename = "test";
 
-    #[ORM\OneToOne(mappedBy: 'account', cascade: ['persist', 'remove'])]
-    private ?Accstatus $etat = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $etat = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message:"Solde is required.")]
+    private ?int $solde = null;
+
+    
 
    
 
@@ -169,26 +175,31 @@ class Account
         return $this;
     }
 
-    public function getEtat(): ?Accstatus
+    public function isEtat(): ?bool
     {
         return $this->etat;
     }
 
-    public function setEtat(?Accstatus $etat): self
+    public function setEtat(?bool $etat): self
     {
-        if ($etat === null && $this->etat !== null) {
-            $this->etat->setAccount(null);
-        }
-
-        if ($etat !== null && $etat->getAccount() !== $this) {
-            $etat->setAccount($this);
-        }
-
         $this->etat = $etat;
 
         return $this;
     }
 
+    public function getSolde(): ?int
+    {
+        return $this->solde;
+    }
+
+    public function setSolde(int $solde): self
+    {
+        $this->solde = $solde;
+
+        return $this;
+    }
+
+    
     
 
 }    
