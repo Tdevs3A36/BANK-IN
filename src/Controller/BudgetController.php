@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Controller;
-
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use App\Entity\Budget;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
+use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,22 +23,47 @@ class BudgetController extends AbstractController
     }
 
     #[Route('/new', name: 'app_budget_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BudgetRepository $budgetRepository): Response
+    public function new(FlashyNotifier $flashyNotifier,Request $request, BudgetRepository $budgetRepository,AccountRepository $accountRP): Response
     {
+        $budgets= $accountRP ->findAll();
+        $AccountSolde=0;
+        foreach ($budgets as $budget){
+            $AccountSolde=$budget->getSolde();
+        }
         $budget = new Budget();
         $form = $this->createForm(BudgetType::class, $budget);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+<<<<<<< Updated upstream
             
             $budgetRepository->save($budget, true);
 
             return $this->redirectToRoute('app_depenses_index', [], Response::HTTP_SEE_OTHER);
+=======
+            $existingEntity = $budgetRepository->findOneByMonth($budget->getDatedebut(),$budget->getDatefin());
+            if ((!$existingEntity)) {
+                if($form['montant']->getData()<=$AccountSolde){
+                    $budgetRepository->save($budget, true);
+                    return $this->redirectToRoute('app_depenses_index', [], Response::HTTP_SEE_OTHER);
+                }
+                else{
+                    $flashyNotifier->error('le montant saisi est supérieur à votre solde');
+                }
+              
+              
+             
+            }
+            else{
+                $flashyNotifier->error('Vous avez déjà un budget dans cet intervalle');
+            }
+            
+>>>>>>> Stashed changes
         }
 
-        return $this->renderForm('budget/new.html.twig', [
+        return $this->render('budget/new.html.twig', [
             'budget' => $budget,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

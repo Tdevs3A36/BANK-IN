@@ -295,7 +295,13 @@ function toggleTheme() {
         setTheme('theme-dark');
     }
 }
-
+function showNotification(message) {
+    new Noty({
+        type: 'erreur',
+        text: message,
+        timeout: 3000 // duration of the notification in milliseconds
+    }).show();
+}
 // Immediately invoked function to set the theme on initial load
 (function () {
     if (localStorage.getItem('raxa_theme') === 'theme-dark') {

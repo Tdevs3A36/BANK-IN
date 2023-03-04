@@ -40,20 +40,33 @@ class BudgetRepository extends ServiceEntityRepository
     }
 
 
-    public function findOneByMonth($datedeb)
+    public function findOneByMonth($datedeb,$datefin)
     {
-        $startDate = new \DateTime('$datedeb');
+        $startDate = $datedeb;
         #$datetimeAsString = $startDate->format('Y-m-d H:i:s');
-        $endDate = clone $startDate;
-        $endDate->modify('+1 month');
+        #$endDate = clone $startDate;
+        $endDate =$datefin;
 
         return $this->createQueryBuilder('v')
-            ->andWhere('v.datedebut >= :start_date')
-            ->andWhere('v.datefin < :end_date')
-            ->setParameter('start_date', $datetimeAsString)
+            ->andWhere('v.datedebut <= :start_date')
+            ->andWhere('v.datefin > :end_date')
+            ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDate)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+    
+    public function findlastbudget():array
+    {
+        $today = new \DateTime('today');
+
+        return $this->createQueryBuilder('v')
+            #->select('v.id as id')
+            ->andWhere(':today BETWEEN v.datedebut AND v.datefin')
+            ->setParameter('today', $today)
+            ->getQuery()
+            ->getResult()
         ;
     }
 

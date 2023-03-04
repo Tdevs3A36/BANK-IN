@@ -33,6 +33,10 @@ class Budget
      * @ORM\Column(type="datetime")
      */
     private ?\DateTimeInterface $dateEnregistrement ;
+
+    #[ORM\ManyToOne(inversedBy: 'budgets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $idAccount = null;
     public function __construct2()
     {
         $this->dateEnregistrement = new \DateTime('now');
@@ -124,6 +128,18 @@ class Budget
     public function setDateEnregistrement(\DateTimeInterface $dateEnregistrement): self
     {
         $this->dateEnregistrement = $dateEnregistrement;
+
+        return $this;
+    }
+
+    public function getIdAccount(): ?Account
+    {
+        return $this->idAccount;
+    }
+
+    public function setIdAccount(?Account $idAccount): self
+    {
+        $this->idAccount = $idAccount;
 
         return $this;
     }

@@ -4,6 +4,17 @@
     <h1>Create new Depenses</h1>
 
     {{ include('depenses/_form.html.twig') }}
+<<<<<<< Updated upstream
 
     <a href="{{ path('app_depenses_index') }}">back to list</a>
+=======
+    
+    <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+   
+>>>>>>> Stashed changes
 {% endblock %}

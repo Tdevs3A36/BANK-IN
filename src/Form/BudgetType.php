@@ -3,10 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Budget;
+use App\Entity\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 class BudgetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -18,6 +21,14 @@ class BudgetType extends AbstractType
             ])
             ->add('datefin',DateType::class, [
                 'widget' => 'single_text'
+            ])
+            ->add('idAccount', EntityType::class, [
+                'class' => Account::class,
+                'choice_label' => 'id',
+                'attr' => [
+                    'class' => 'hidden',
+                    'style' => 'display:none;'
+                ]
             ])
         ;
     }

@@ -16,9 +16,11 @@ class Depenses
     private ?int $id_depense = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"le titre doit etre remplir ")]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Rib doit etre remplir ")]
     private ?string $prenom_destinataire = null;
 
     #[ORM\Column(length: 255)]

@@ -38,6 +38,52 @@ class DepensesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+<<<<<<< Updated upstream
+=======
+    public function sommedepense() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT SUM(d.montant) FROM App\Entity\Depenses d');
+        return $query->getResult();
+    }
+    public function affichetout() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT * FROM App\Entity\Depenses d');
+        return $query->getResult();
+    }
+    public function statisticsbymethod($userName){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT COUNT(d.type_depense) as count FROM App\Entity\Depenses d WHERE d.type_depense LIKE :username')
+                    ->setParameter('username',$userName);
+        return $query->getResult();
+    }
+    public function studentSearchByUserNameDQL($userName){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT SUM(d.montant) as count FROM App\Entity\Depenses d WHERE d.categorie_depense LIKE :username')
+                    ->setParameter('username',$userName);
+        return $query->getResult();
+    }
+    
+    public function depensesSearchBytitle($userName) {
+        return $this->createQueryBuilder('d')
+                ->where(':titre IS NULL or d.title LIKE :titre ')
+                ->andwhere(':prenom IS NULL or d.prenom_destinataire LIKE :prenom  ')
+                ->andwhere(':rib IS NULL or d.rib_destinataire LIKE :rib  ')
+                ->andwhere(':montant IS NULL or d.montant LIKE :montant  ')
+                ->andwhere(':datedebut IS NULL or d.datedebut LIKE :datedebut  ')
+                ->andwhere(':categorie_depense IS NULL or d.categorie_depense LIKE :categorie_depense  ')
+                ->andwhere(':type_depense IS NULL or d.type_depense LIKE :type_depense')
+                ->setParameter('titre',$userName['titre'])
+                ->setParameter('prenom',$userName['prenom'])
+                ->setParameter('rib',$userName['rib'])
+                ->setParameter('montant',$userName['montant'])
+                ->setParameter('datedebut',$userName['datedebut'])
+                ->setParameter('categorie_depense',$userName['categorie_depense'])
+                ->setParameter('type_depense',$userName['type_depense'])
+                ->getQuery()
+                ->getResult();
+                
+    }
+>>>>>>> Stashed changes
 
 //    /**
 //     * @return Depenses[] Returns an array of Depenses objects
