@@ -44,8 +44,6 @@ class AccountController extends AbstractController
 
     $accounts  = new Paginator($query);
     $currentPage = $request->query->getInt('page', 1);
-    //itemsPerPage kadeh min element f page
-    //$itemsPerPage = 1;
     $itemsPerPage = 5;
     $accounts
     ->getQuery()
@@ -101,10 +99,6 @@ class AccountController extends AbstractController
             }
             $account->setEtat(null);
             $accountRepository->save($account, true);
-            //$etat = new Accstatus();
-            //$etat->setEtat("En attente");
-            //$etat->setAccount($account);
-            //$etatrepo->save($etat, true);
             return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -150,19 +144,61 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/refuse/{id}', name: 'account_refuse', methods: ['GET', 'POST'])]
-    public function refuse(Account $account, AccountRepository $accountRepository, Request $request): Response
+    public function refuse(Account $account, AccountRepository $accountRepository, Request $request, Request $request2): Response
     {
+        $form = $this->createForm(SearchAccountType::class);
+        $search = $form->handleRequest($request2);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository(Account::class)->createQueryBuilder('u')->getQuery();
+    
+        $accounts  = new Paginator($query);
+        $currentPage = $request->query->getInt('page', 1);
+        $itemsPerPage = 5;
+        $accounts
+        ->getQuery()
+        ->setFirstResult($itemsPerPage * ($currentPage - 1))
+        ->setMaxResults($itemsPerPage);
+        $totalItems = count($accounts);
+        $pagesCount = ceil($totalItems / $itemsPerPage);
         if ($account->isEtat() == null) {
             $account->setEtat(0);
             $accountRepository->save($account, true);
+            $accounts = $accountRepository->search($search->get('mots')->getData());
+            $currentPage = $request->query->getInt('page', 1);
+            $totalItems = count($accounts);
+            $pagesCount = ceil($totalItems / $itemsPerPage);
             return $this->render('account/index.html.twig', [
-                'accounts' => $accountRepository->findAll(),
+                'form' => $form->createView(),
+                'accounts' => $accounts,
+                'currentPage' => $currentPage,
+                'pagesCount' => $pagesCount,    
             ]);
         } 
+        return $this->render('account/index.html.twig', [
+            'form' => $form->createView(),
+            'accounts' => $accounts,
+            'currentPage' => $currentPage,
+            'pagesCount' => $pagesCount,    
+        ]);
     }
     #[Route('/validate/{id}', name: 'account_validate', methods: ['GET', 'POST'])]
-    public function validate(Account $account, AccountRepository $accountRepository, Request $request): Response
+    public function validate(Account $account, AccountRepository $accountRepository, Request $request, Request $request2): Response
     {
+        $form = $this->createForm(SearchAccountType::class);
+        $search = $form->handleRequest($request2);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository(Account::class)->createQueryBuilder('u')->getQuery();
+    
+        $accounts  = new Paginator($query);
+        $currentPage = $request->query->getInt('page', 1);
+        $itemsPerPage = 5;
+        $accounts
+        ->getQuery()
+        ->setFirstResult($itemsPerPage * ($currentPage - 1))
+        ->setMaxResults($itemsPerPage);
+        $totalItems = count($accounts);
+        $pagesCount = ceil($totalItems / $itemsPerPage);
+        
         if  ($account->isEtat() == 0){
             $account->setEtat(1);
             $email = new TemplatedEmail();
@@ -174,14 +210,26 @@ class AccountController extends AbstractController
             $this->mailer->send($email);
 
             $accountRepository->save($account, true);
-            
+            $accounts = $accountRepository->search($search->get('mots')->getData());
+            $currentPage = $request->query->getInt('page', 1);
+            $totalItems = count($accounts);
+            $pagesCount = ceil($totalItems / $itemsPerPage);
             return $this->render('account/index.html.twig', [
-                'accounts' => $accountRepository->findAll(),
+                'form' => $form->createView(),
+                'accounts' => $accounts,
+                'currentPage' => $currentPage,
+                'pagesCount' => $pagesCount,    
             ]);
         }
+        return $this->render('account/index.html.twig', [
+            'form' => $form->createView(),
+            'accounts' => $accounts,
+            'currentPage' => $currentPage,
+            'pagesCount' => $pagesCount,    
+        ]);
     }
     #[Route('/solde/{solde}', name: 'solde', methods: ['GET', 'POST'])]
-    public function solde(Account $account, AccountRepository $accountRepository, Request $request, $solde): Response
+    public function solde($solde): Response
     {
        
             //$solde = $request->query->get('solde');
