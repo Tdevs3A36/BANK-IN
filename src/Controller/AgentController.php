@@ -7,18 +7,27 @@ use App\Form\RegistrationFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/viewgent')]
+#[Route('admin/viewagent')]
 class AgentController extends AbstractController
 {
     #[Route('/', name: 'app_agent_view', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository): Response
     {
-        return $this->render('agent/index.html.twig', [
-            'users' => $userRepository->findAll(),
+        $page = $request->query->getInt('page', 1);
+        $perPage = 4;
+        $users = $userRepository->findByPage($page, $perPage);
+
+        return $this->render('agent/index.html.twig',[
+            'users' => $users,
+            'page' => $page,
+            'perPage' => $perPage,
         ]);
     }
 
@@ -32,7 +41,7 @@ class AgentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_agent_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_agent_view', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('agent/new.html.twig', [
@@ -50,15 +59,38 @@ class AgentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_agent_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user,SluggerInterface $slugger, UserRepository $userRepository): Response
     {
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
+            /** @var UploadedFile $eventImage */
+            $eventImage = $form->get('image')->getData();
+            if ($eventImage) {
+                $originalFilename = pathinfo($eventImage->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $eventImage->guessExtension();
 
-            return $this->redirectToRoute('app_agent_index', [], Response::HTTP_SEE_OTHER);
+                // Move the file to the directory where images are stored
+                try {
+                    $eventImage->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'eventImage' property to store the image file name
+                // instead of its contents
+                $user->setImage($newFilename);
+                $userRepository->save($user, true);
+            }
+
+
+            return $this->redirectToRoute('app_agent_view', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('agent/edit.html.twig', [
@@ -74,6 +106,6 @@ class AgentController extends AbstractController
             $userRepository->remove($user, true);
         }
 
-        return $this->redirectToRoute('app_agent_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_agent_view', [], Response::HTTP_SEE_OTHER);
     }
 }

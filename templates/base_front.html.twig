@@ -6,7 +6,6 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block stylesheets %}
         <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/flaticon.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/remixicon.css')}}">
@@ -17,18 +16,14 @@
         <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/dark-theme.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+        {% block stylesheets %}
+
         {% endblock %}
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
     </head>
 
     <body>
-
-    <div class="loader js-preloader">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
 
 
     <div class="switch-theme-mode">
@@ -51,40 +46,10 @@
                         <div class="col-lg-8 col-md-12">
                             <div class="header-top-left">
                                 <ul class="contact-info list-style">
-                                    <li><i class="flaticon-call"></i> <a href="tel:02459271449">(+024) 592 71 449</a></li>
+                                    <li><i class="flaticon-call"></i> <a href="tel:02459271449">(+216) 22 951 633</a></li>
                                     <li><i class="flaticon-email-1"></i> <a href="https://templates.hibootstrap.com/cdn-cgi/l/email-protection#3159545d5d5e71435049501f525e5c"><span class="__cf_email__" data-cfemail="fe969b929291be8c9f869fd09d9193">[email&#160;protected]</span></a></li>
-                                    <li><i class="flaticon-pin"></i><p>St. Here Mandalay, New York, U.K</p></li>
+                                    <li><i class="flaticon-pin"></i><p>Ariana</p></li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="header-top-right">
-                                <ul class="header-top-menu list-style">
-                                    <li><a href="contact.html">Support</a></li>
-                                    <li><a href="contact.html">Help</a></li>
-                                </ul>
-                                <div class="select-lang">
-                                    <i class="ri-global-line"></i>
-                                    <div class="navbar-option-item navbar-language dropdown language-option">
-                                        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="lang-name"></span>
-                                        </button>
-                                        <div class="dropdown-menu language-dropdown-menu">
-                                            <a class="dropdown-item" href="#">
-                                                <img src="assets/img/uk.png" alt="flag">
-                                                English
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <img src="assets/img/china.png" alt="flag">
-                                                简体中文
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <img src="assets/img/uae.png" alt="flag">
-                                                العربيّة
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,9 +59,8 @@
             <div class="header-bottom">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="{{asset('index.html')}}">
+                        <a class="navbar-brand" href="{{path('app_index')}}">
                             <img class="logo-light" src="{{asset('assets/img/logo.png')}}" alt="logo">
-                            <img class="logo-dark" src="{{asset('assets/img/logo-white.png')}}" alt="logo">
                         </a>
                         <div class="collapse navbar-collapse main-menu-wrap" id="navbarSupportedContent">
                             <div class="menu-close xl-none">
@@ -257,7 +221,7 @@
                                     <a href="contact.html" class="nav-link">Contact Us</a>
                                 </li>
                                 <li class="nav-item xl-none">
-                                    <a href="{{ path('app_logout') }}" class="btn style1">log out</a>
+                                    <a href="{{ path('app_logout') }}" class="btn btn-info btn-sm">log out</a>
                                 </li>
                             </ul>
                             <div class="others-options  lg-none">
@@ -267,11 +231,35 @@
                                         <i class="flaticon-search"></i>
                                     </button>
                                 </div>
-                                <div class="header-btn lg-none">
-                                    <a href="{{ path('app_logout') }}" class="btn style1">log out</a>
+                                {% if app.user %}
+                                <div>
+                                <style>.avatar {
+                                        vertical-align: middle;
+                                        width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                    }
+                                </style>
+
+                                    <a href="{{ path('profile') }}">
+                                        <img src="{{ asset('/uploads/'~app.user.image) }}" alt="Avatar" class="avatar">
+                                    </a>
+
                                 </div>
+                                <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a href="{{ path('app_logout') }}" class="nav-link">logout</a>
+                                </li>
+                                </ul>
+                            </div>
+                            </div>
+                        {% else %}
+                        <div class="others-options  lg-none">
+                            <div class="header-btn lg-none">
+                                <a href="{{ path('app_login') }}" class="btn style1">Login</a>
                             </div>
                         </div>
+                        {% endif %}
                     </nav>
                     <div class="mobile-bar-wrap">
                         <div class="mobile-sidebar">
@@ -454,7 +442,6 @@
 
     </div>
 
-    {% block javascripts %}
     <a href="javascript:void(0)" class="back-to-top bounce"><i class="ri-arrow-up-s-line"></i></a>
 
     <script src="{{asset('assets/js/jquery.min.js')}}"></script>
@@ -468,6 +455,7 @@
     <script src="{{asset('assets/js/jquery.appear.js')}}"></script>
     <script src="{{asset('assets/js/tweenmax.min.js')}}"></script>
     <script src="{{asset('assets/js/main.js')}}"></script>
+    {% block javascripts %}
 
     {% endblock %}
 

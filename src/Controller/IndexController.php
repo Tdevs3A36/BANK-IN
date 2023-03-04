@@ -11,7 +11,24 @@ class IndexController extends AbstractController
     #[Route('/home', name: 'home')]
     public function home(): Response
     {
+        /*if ($this->getUser()->isIsbanned()){
+            return $this->render('index/404.html.twig', [
+                'controller_name' => 'IndexController',
+            ]);
+        }*/
         return $this->render('index/index_front.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
+    }
+ #[Route('home/profile', name: 'profile')]
+    public function profile(): Response
+    {
+        if ($this->getUser()->isIsbanned()){
+            return $this->render('index/404.html.twig', [
+                'controller_name' => 'IndexController',
+            ]);
+        }
+        return $this->render('user/profile.html.twig', [
             'controller_name' => 'IndexController',
         ]);
     }
@@ -48,5 +65,13 @@ class IndexController extends AbstractController
     public function back_agent(): Response
     {
         return $this->redirectToRoute('agent');
+    }
+
+    #[Route('/notfound', name: '404')]
+    public function notfound(): Response
+    {
+        return $this->render('index/404.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
     }
 }

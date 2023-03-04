@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class AppAuthentificatorAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
+
     }
 
     public function authenticate(Request $request): Passport
@@ -49,9 +51,12 @@ class AppAuthentificatorAuthenticator extends AbstractLoginFormAuthenticator
         //return new RedirectResponse($this->urlGenerator->generate('home'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
 
-        $roles = $token->getUser()->getRoles();
 
-        if (in_array("ROLE_ADMIN", $roles))
+        $roles = $token->getUser()->getRoles();
+        $user = $token->getUser();
+        if ($user instanceof User && $user->isIsbanned() && (in_array("ROLE_USER",$user->getRoles()) ))
+            return  new RedirectResponse($this->urlGenerator->generate('404'));
+        elseif (in_array("ROLE_ADMIN", $roles))
             return new RedirectResponse($this->urlGenerator->generate('admin'));
         elseif (in_array("ROLE_USER", $roles))
             return new RedirectResponse($this->urlGenerator->generate('home'));
@@ -64,3 +69,4 @@ class AppAuthentificatorAuthenticator extends AbstractLoginFormAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
+
