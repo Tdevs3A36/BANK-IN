@@ -52,13 +52,7 @@ class Abonnement
     
     
 
-    /**
-     * @return Collection<int, Service>
-     */
-    public function getServices(): Collection
-    {
-        return $this->services;
-    }
+    
 
     
     public function __toString(): string{

@@ -52,15 +52,6 @@ class AccountType extends AbstractType
                     ])
                 ],
             ])
-            ->add('Services', ChoiceType::class, [
-                'label' => 'Select your services',
-                'choices' => [
-                    'Service1' => 'service1',
-                    'Service2' => 'service2',
-                    'Service3' => 'service3',
-                ],
-                
-            ])
             ->add('solde')
             
         ;

@@ -44,8 +44,7 @@ class Account
     #[Assert\NotBlank(message:"adresse is required.")]
     private ?string $Ville = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Services = null;
+    
 
     #[ORM\Column(type: 'string')]
     private $brochureFilename = "test";
@@ -159,18 +158,6 @@ class Account
     public function setVille(string $Ville): self
     {
         $this->Ville = $Ville;
-
-        return $this;
-    }
-
-    public function getServices(): ?string
-    {
-        return $this->Services;
-    }
-
-    public function setServices(string $Services): self
-    {
-        $this->Services = $Services;
 
         return $this;
     }

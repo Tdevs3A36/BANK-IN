@@ -95,7 +95,6 @@
 					<th>Adresse</th>
 					<th>Ville</th>
 					<th>Brochure</th>
-					<th hidden>Services</th>
 					<th>Etat</th>
 					<th></th>
                     <th></th>
@@ -112,7 +111,6 @@
 						<td>{{ account.Adresse }}</td>
 						<td>{{ account.Ville }}</td>
 						<td>{{ account.brochureFilename }}</td>
-						<td hidden>{{ account.Services }}</td>
 						{% if account.etat is null %}
 							<td>En attente</td>
 						{% elseif account.etat %}
