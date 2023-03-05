@@ -60,13 +60,13 @@ class PretController extends AbstractController
         $accountId = $request->get('id');
 
         $account = $accountRepository->find($accountId);
-        $pret->setAccount($account);
-        $prets = $pretRepository->findBy(['account' => $account]);
+       
+        
 
         
 
 
-        return $this->render('pret/firstpage.html.twig', ['id' => $accountId, 'account' => $account,'prets' => $prets,]);
+        return $this->render('pret/firstpage.html.twig', ['id' => $accountId, 'account' => $account,]);
     }
 
     #[Route('/new/{id}', name: 'app_pret_new', methods: ['GET', 'POST'])]
@@ -147,8 +147,8 @@ class PretController extends AbstractController
 
         ]);
     }
-    #[Route('/{id}', name: 'app_pret_show', methods: ['GET'])]
-    public function show(Pret $pret, Request $request, AccountRepository $accountRepository, Account $account, PretRepository $pretRepository): Response
+    #[Route('/{id}', name: 'app_pret_show', methods: ['GET', 'POST'])]
+    public function show( Account $account, PretRepository $pretRepository): Response
     {
     
         $prets = $pretRepository->findBy(['account' => $account]);
