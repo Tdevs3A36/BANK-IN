@@ -20,19 +20,18 @@
 			<link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 		{% endblock %}
-		
+
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
 		<link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
-		
+
 	</head>
 
 	<body>
 		{% block body %}
 
-			
 
 			{% block javascripts %}
 				<a href="javascript:void(0)" class="back-to-top bounce">
@@ -50,6 +49,8 @@
 				<script src="{{asset('assets/js/jquery.appear.js')}}"></script>
 				<script src="{{asset('assets/js/tweenmax.min.js')}}"></script>
 				<script src="{{asset('assets/js/main.js')}}"></script>
+				
+				<script src="{{asset('assets/js/calcul_mensualite.js') }}"></script>
 
 			{% endblock %}
 

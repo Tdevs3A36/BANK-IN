@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,9 +39,10 @@ class PretType extends AbstractType
             ->add('poste')
             ->add('debut_travail', DateType::class, [
                 'widget' => 'single_text',
-                
+
             ])
             ->add('revenu');
+          /*   ->add('mensualite'); */
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Pret;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,7 +21,25 @@ class PretRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Pret::class);
     }
+    public function search($mots){
+        $query = $this->createQueryBuilder('a');
+        if($mots != null){
+            $query->Where('MATCH_AGAINST(a.raison, a.poste) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        return $query->getQuery()->getResult();
+    }
+    public function findAllOrderedByCreatedAt()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
+    
+   
     public function save(Pret $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PretRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -13,6 +15,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+#[ORM\Index(name: 'pret', columns: ['raison','poste'], flags: ['fulltext'])]
 
 #[ORM\Entity(repositoryClass: PretRepository::class)]
 class Pret
@@ -40,7 +44,7 @@ class Pret
     private ?string $raison = null;
 
 
-
+  
 
     /**
      * @Assert\Length(
@@ -280,18 +284,24 @@ class Pret
 
         return $this;
     }
-    private $checked = false; // Add this property to keep track of checked status
+   
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
-    // ...
-    
-    public function isChecked(): bool
+    public function __construct()
     {
-        return $this->checked;
+        $this->createdAt = new \DateTime();
+    }
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
     }
 
-    public function setChecked(bool $checked): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->checked = $checked;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

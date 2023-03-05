@@ -254,10 +254,16 @@
 			</div>
 
 
-			<section class="service-wrap ptb-100">
+			<section class="service-wrap ptb-50">
 				<div class="container">
 					<div class="row justify-content-center">
-
+						{% for type, messages in app.session.flashbag.all() %}
+							{% for message in messages %}
+								<div class="alert alert-success alert-dismissible" role="alert">
+									Votre demande a été envoyée avec succès !
+								</div>
+							{% endfor %}
+						{% endfor %}
 						<div class="col-xl-8 col-lg-2 col-md-6">
 							<div class="service-card style4">
 								<div class="service-info">
@@ -266,7 +272,9 @@
 											<i class="flaticon-mortarboard"></i>
 										</span>
 										<h3>
-											<a href="new">Demander un prêt</a>
+
+											<a href="new/{{id}}">Demander un prêt</a>
+
 										</h3>
 									</div>
 									<p>Parlons de vos projets : un futur logement, un nouveau véhicule, des travaux... Concrétisez vos projets d'avenir.</p>
@@ -278,6 +286,32 @@
 					</div>
 
 				</div>
+
+			</section>
+			<section>
+				<div class="container">
+					<div class="row justify-content-center">
+
+						<div class=" col-md-6">
+							<div class="service-card style4">
+								<div class="service-info">
+									<div class="service-title">
+
+										<h3>
+											
+											<a class="row justify-content-center" href="{{ path('app_pret_show', {'id': account.id}) }}">Voir mes prets</a>
+										</h3>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
 			</section>
 
 		</div>
@@ -294,9 +328,9 @@
 							</a>
 							<p class="comp-desc">
 								On the other hand, we denounce whteous indig nation and
-																																																																																																																																																																						                  dislike men wh beguiled moraized er hand consec teturus adipis
-																																																																																																																																																																						                  iscing elit eiusmod tempordunt labore dolore magna aliqua
-																																																																																																																																																																						                  consector tetur adip iscing.
+																																																																																																																																																																																														                  dislike men wh beguiled moraized er hand consec teturus adipis
+																																																																																																																																																																																														                  iscing elit eiusmod tempordunt labore dolore magna aliqua
+																																																																																																																																																																																														                  consector tetur adip iscing.
 							</p>
 							<div class="social-link">
 								<ul class="social-profile list-style style1">
@@ -415,7 +449,7 @@
 							<h3 class="footer-widget-title">Subscribe</h3>
 							<p class="newsletter-text">
 								Tablished fact that a reader will be distrated by the readable
-																																																																																																																																																																						                  content
+																																																																																																																																																																																														                  content
 							</p>
 							<form action="#" class="newsletter-form">
 								<input type="email" placeholder="Your Email"/>

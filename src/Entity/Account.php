@@ -21,9 +21,12 @@ class Account
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Pret::class)]
     private Collection $prets;
 
+    
+
     public function __construct()
     {
         $this->prets = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -72,4 +75,7 @@ class Account
 
         return $this;
     }
+
+   
+
 }
