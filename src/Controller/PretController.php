@@ -78,6 +78,7 @@ class PretController extends AbstractController
         $form->handleRequest($request);
 
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $accountId = $request->get('id');
             $account = $accountRepository->find($accountId);
@@ -92,6 +93,7 @@ class PretController extends AbstractController
 
 
 
+
             return $this->redirectToRoute('app_pret_desc', ['id' => $accountId], Response::HTTP_SEE_OTHER);
         }
 
@@ -102,12 +104,14 @@ class PretController extends AbstractController
 
         ]);
     }
-   
+
 
 
     #[Route('/list', name: 'app_pret_list', methods: ['GET', 'POST'])]
-    public function index(Request $request2, EntityManagerInterface $entityManager, PretRepository $pretRepository, Request $request): Response
+    public function index(Request $request2,  PretRepository $pretRepository, Request $request): Response
     {
+
+
         $form = $this->createForm(SearchPretType::class);
         $search = $form->handleRequest($request2);
 
@@ -115,11 +119,10 @@ class PretController extends AbstractController
         $query = $em->getRepository(Pret::class)
             ->createQueryBuilder('u');
 
-
+        //$desc= $pretRepository->findBy([],['date_pret'=>'DESC']);
         $prets  = new Paginator($query);
         $currentPage = $request->query->getInt('page', 1);
-        //itemsPerPage kadeh min element f page
-        //$itemsPerPage = 1;
+
         $itemsPerPage = 10;
         $prets
 
@@ -130,13 +133,15 @@ class PretController extends AbstractController
         $totalItems = count($prets);
         $pagesCount = ceil($totalItems / $itemsPerPage);
         if ($form->isSubmitted() && $form->isValid()) {
-            $prets = $pretRepository->search($search->get('mots')->getData());
+            $prets =  $pretRepository->search($search->get('mots')->getData());
+            // $prets = new Paginator($pretRepository->findBy([], ['date_pret' => 'DESC']));
             $currentPage = $request->query->getInt('page', 1);
             $totalItems = count($prets);
             $pagesCount = ceil($totalItems / $itemsPerPage);
             return $this->render('pret/index.html.twig', [
                 'form' => $form->createView(),
                 'prets' => $prets,
+
                 'currentPage' => $currentPage,
                 'pagesCount' => $pagesCount,
             ]);
@@ -144,8 +149,10 @@ class PretController extends AbstractController
         return $this->render('pret/index.html.twig', [
             'form' => $form->createView(),
             'prets' => $prets,
+            //'desc' => $desc,
             'currentPage' => $currentPage,
             'pagesCount' => $pagesCount,
+
 
         ]);
     }
@@ -158,6 +165,7 @@ class PretController extends AbstractController
         return $this->render('pret/show.html.twig', [
             'account' => $account,
             'prets' => $prets,
+
         ]);
     }
 

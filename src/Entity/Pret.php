@@ -59,15 +59,14 @@ class Pret
     private ?string $poste = null;
 
 
-
-
-    /**
-     * @Assert\GreaterThan("today", message="La date doit être supérieure à aujourd'hui")
+     /**
+     * @Assert\LessThan("now - 3 months", message="La date doit être inférieure à il y a 3 mois")
+     * @ORM\Column(type=Types::DATE_MUTABLE)
      */
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $debut_travail = null;
 
+   
 
 
     /**
