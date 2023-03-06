@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etatpret;
 use App\Entity\Pret;
 use App\Form\EtatpretType;
+use App\Form\ReponseType;
 use App\Repository\EtatpretRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,11 +58,30 @@ class EtatpretController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $etatpretRepository->save($etatpret, true);
+          
 
             return $this->redirectToRoute('app_pret_list', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('etatpret/edit.html.twig', [
+            'etatpret' => $etatpret,
+            'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/repondre', name: 'app_pret_repondre', methods: ['GET', 'POST'])]
+    public function repondre(Request $request, Etatpret $etatpret, EtatpretRepository $etatpretRepository): Response
+    {
+        $form = $this->createForm(ReponseType::class, $etatpret);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $etatpretRepository->save($etatpret, true);
+            $this->addFlash('success', 'The entity has been saved.');
+
+            return $this->redirectToRoute('app_pret_list', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('etatpret/reponse.html.twig', [
             'etatpret' => $etatpret,
             'form' => $form,
         ]);

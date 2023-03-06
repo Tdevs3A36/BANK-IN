@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\Etatpret;
+use App\Entity\Notification;
 use App\Entity\Pret;
 use App\Form\AccountType;
 use App\Form\PretType;
@@ -60,10 +61,10 @@ class PretController extends AbstractController
         $accountId = $request->get('id');
 
         $account = $accountRepository->find($accountId);
-       
-        
 
-        
+
+
+
 
 
         return $this->render('pret/firstpage.html.twig', ['id' => $accountId, 'account' => $account,]);
@@ -101,6 +102,7 @@ class PretController extends AbstractController
 
         ]);
     }
+   
 
 
     #[Route('/list', name: 'app_pret_list', methods: ['GET', 'POST'])]
@@ -148,9 +150,9 @@ class PretController extends AbstractController
         ]);
     }
     #[Route('/{id}', name: 'app_pret_show', methods: ['GET', 'POST'])]
-    public function show( Account $account, PretRepository $pretRepository): Response
+    public function show(Account $account, PretRepository $pretRepository): Response
     {
-    
+
         $prets = $pretRepository->findBy(['account' => $account]);
 
         return $this->render('pret/show.html.twig', [

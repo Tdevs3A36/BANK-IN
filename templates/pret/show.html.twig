@@ -23,11 +23,12 @@
 							<th>Poste</th>
 
 							<th>Debut_travail</th>
-							<th>Revenu</th>
+							<th>Revenu (DT)</th>
+							<th>Réponse</th>
 
 
 						</thead>
-					</tr>
+					
 					<tbody>
 
 						{% for pret in prets %}
@@ -51,10 +52,16 @@
 								<td>{{ pret.poste }}</td>
 								<td>{{ pret.debutTravail ? pret.debutTravail|date('Y-m-d') : '' }}</td>
 								<td>{{ pret.revenu }}</td>
+								{% if pret.etat.remarque %}
+								<td>{{ pret.etat.remarque }}</td>
+								{% else %}
+								<td>Aucune réponse.</td>
+								{% endif %}
 							</tr>
 
 						{% endfor %}
 					</tbody>
+					</table>
 				</div>
 			{% endif %}
 		</div>

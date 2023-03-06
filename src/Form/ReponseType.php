@@ -10,22 +10,18 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EtatpretType extends AbstractType
+class ReponseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('etat', ChoiceType::class, array(
-                'choices' => array(
-                    "Refusé" => "Refusé",
-                    'En cours' => 'En cours',
-                    'Accepté' => 'Accepté',
-                ),
-                'expanded' => false,
-                'multiple' => false,
-            ))
-
            
+
+            ->add('remarque')
+//            ->add('pret', EntityType::class,[
+//                 'class' => Pret::class,
+//                    'choice_label' => 'id'
+//    ])
         ;
     }
 

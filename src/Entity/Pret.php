@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PretRepository;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -16,7 +17,7 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-#[ORM\Index(name: 'pret', columns: ['raison','poste'], flags: ['fulltext'])]
+#[ORM\Index(name: 'pret', columns: ['raison', 'poste'], flags: ['fulltext'])]
 
 #[ORM\Entity(repositoryClass: PretRepository::class)]
 class Pret
@@ -44,7 +45,7 @@ class Pret
     private ?string $raison = null;
 
 
-  
+
 
     /**
      * @Assert\Length(
@@ -217,27 +218,6 @@ class Pret
         return $this;
     }
 
-    /*   public function getAdministrator(): ?EtatPret
-    {
-        return $this->administrator;
-    }
-
-    public function setAdministrator(?EtatPret $administrator): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($administrator === null && $this->administrator !== null) {
-            $this->administrator->setEtat(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($administrator !== null && $administrator->getEtat() !== $this) {
-            $administrator->setEtat($this);
-        }
-
-        $this->administrator = $administrator;
-
-        return $this;
-    } */
 
     public function getEtat(): ?Etatpret
     {
@@ -284,8 +264,8 @@ class Pret
 
         return $this;
     }
-   
-     /**
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -293,6 +273,7 @@ class Pret
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+       
     }
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -305,5 +286,5 @@ class Pret
 
         return $this;
     }
-
+   
 }

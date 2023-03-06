@@ -5,17 +5,18 @@
 	<div class="card card-primary">
 
 		<div class="card-body" style="display: block;">
-
-
 			<div class="form-group">
-			
-				{{ form_widget(form.etat,{'attr': { 'class':'form-control'}}) }}
+				
+				{{ form_widget(form.remarque, {'attr': { 'placeholder': 'Enter ...', 'class':'form-control','type':'text'}}) }}
 			</div>
 
+			
+
 		</div>
+		
 		<!-- /.card-body -->
 	</div>
-	<button class="btn btn-danger">{{ button_label|default('Save') }}</button>
+	<button class="btn btn-block btn-primary btn-lg">{{ button_label|default('Save') }}</button>
 	<!-- /.card -->
 </div>
 {{ form_end(form) }}
